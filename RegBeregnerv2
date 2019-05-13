@@ -1,0 +1,69 @@
+#Definer custom errors som en række classes. Tro mig, det bliver mere overskueligt sådan her.
+
+class ElbilError (Exception):
+  def __init__(self):
+    print("Desværre understøtter min janky-ass beregner ikke el- og brintbiler. Sorry mang.")
+    raise SystemExit
+class AfgiftsError (Exception):
+  def __init__(self):
+    print("Skriv venligst kun y eller n på prisen er afgiftspligtig.")
+    raise SystemExit
+class DataError (Exception):
+  def __init__(self):
+    print("Der er noget galt med dine data. Prøv igen.")
+class GenError(DataError):
+  def __init__(self):
+    DataError().__init__
+    print("Fejlkode #1, generisk datafejl. Programmet fik noget andet, end det regnede med - typisk bogstaver i stedet for tal eller omvendt.")
+    raise SystemExit
+class NegError(DataError):
+  def __init__(self):
+    DataError().__init__
+    print("Fejlkode #2, negative tal. Du kan ikke bruge negative tal.")
+    raise SystemExit
+class MomsError(DataError):
+  def __init__(self):
+    DataError().__init__
+    print("Du kan kun svare Y eller N på, om prisen er inkl. moms")
+    raise SystemExit
+class IllegalAction(Exception):
+  def __init__(self):
+    print("Du prøver at gøre noget, programmet ikke vil. Start det igen indtil jeg finder på noget andet.")
+    raise SystemExit
+
+#Vi laver et tomt dictionary, som vi kan smide data ind i. Det bliver et dictionary med keys, der er navnet på bilen, og values, der er en liste over resten af lortet.
+CarDataMaster = {}
+
+#lav en funktion til at tilføje biler
+def CarCreator(CarName):
+  try:
+   vaerdi = int(input("Hvad er bilens værdi i hele kr? "))
+   moms = str(input("Er det inkl. moms? Hvis ja, skriv Y. Ellers, skriv N.").lower())
+   afgiftspligtig = input ("Er den værdi allerede den afgiftspligtige værdi? Skriv y eller n. ".lower())
+   barnesaede = int(input("Hvor mange integrerede barnesæder har bilen? Hvis der er ingen, så skriv 0 "))
+   airbags = int(input("Hvor mange airbags har bilen? "))
+   NCAP = int(input("Hvor mange Euro NCAP-stjerner har bilen? "))
+   fuel = str(input("Kører bilen på benzin eller diesel? ").lower())
+   mpg = float(input("Hvor mange km pr. liter (rundet ned)"))
+   selealarmer = int(input("Hvor mange selealarmer har bilen? "))
+  except:
+    raise GenError
+  #check data for mærkelige fortegn mv.
+  if vaerdi < 0 or barnesaede < 0 or airbags <0 or NCAP < 0 or NCAP > 5 or mpg < 0 or selealarmer < 0:
+    raise NegError
+  else:
+    pass
+  #Tilføj moms til bilens pris hvis den ikke er der i forvejen
+  if moms == "y":
+    vaerdi = vaerdi
+  elif moms == "n":
+    vaerdi = vaerdi * 1.25
+  else:
+    raise MomsError
+  if fuel == "benzin" or fuel == "diesel":
+    pass
+  else:
+    raise ElbilError
+  #lav listen om til en dictionary, som vi kan smide ind. Det her er det mest forvirrende jeg nogensinde har skrevet.
+  CarData = {"vaerdi" : vaerdi , "afgiftspligtig" : afgiftspligtig,  "barnesaede": barnesaede, "airbags": airbags, "NCAP": NCAP, "fuel": fuel, "mpg": mpg, "selealarmer": selealarmer}
+  CarDataMaster.update({CarName : CarData})
