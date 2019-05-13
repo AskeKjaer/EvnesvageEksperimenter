@@ -135,4 +135,4 @@ else:
   print("Registreringsafgiften er blevet reduceret med " + str(1000*selealarmer) + " kr på grund af selealarmer.")
 
 #print resultatet
-print("Bilens afgiftspligtige værdi er " + str(vaerdi) + " og dertil er der " + str(int(Regafg)) + " i registreringsafgift. Den totale pris er derfor " + str(int(Regafg + vaerdi)))
+print("Bilens afgiftspligtige værdi er " + str(int(vaerdi)) + " og dertil er der " + str(int(Regafg)) + " i registreringsafgift. Den totale pris er derfor " + str(int(Regafg + vaerdi)))
