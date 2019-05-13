@@ -3,11 +3,11 @@
 class ElbilError (Exception):
   def __init__(self):
     print("Desværre understøtter min janky-ass beregner ikke el- og brintbiler. Sorry mang.")
-    quit()
+    raise SystemExit
 class AfgiftsError (Exception):
   def __init__(self):
     print("Skriv venligst kun y eller n på prisen er afgiftspligtig.")
-    quit()
+    raise SystemExit
 class DataError (Exception):
   def __init__(self):
     print("Der er noget galt med dine data. Prøv igen.")
@@ -15,17 +15,17 @@ class GenError(DataError):
   def __init__(self):
     DataError().__init__
     print("Fejlkode #1, generisk datafejl. Programmet fik noget andet, end det regnede med - typisk bogstaver i stedet for tal eller omvendt.")
-    quit()
+    raise SystemExit
 class NegError(DataError):
   def __init__(self):
     DataError().__init__
     print("Fejlkode #2, negative tal. Du kan ikke bruge negative tal.")
-    quit()
+    raise SystemExit
 class MomsError(DataError):
   def __init__(self):
     DataError().__init__
     print("Du kan kun svare Y eller N på, om prisen er inkl. moms")
-    quit()
+    raise SystemExit
 
 #Gather user inputs. Lots and lots of inputs.
 try:
